@@ -1,6 +1,11 @@
 provider "aws" {
+<<<<<<< HEAD
+  access_key = "AKIAJMXEYH6KL6FQA47A"
+  secret_key = "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"
+=======
   access_key = "XXXXX"
   secret_key = "XXXXXX"
+>>>>>>> 39db06ab9e7de64a43d9e31e5cb06683bd8ce843
   region = "us-east-1"
 }
 
@@ -38,6 +43,14 @@ resource "aws_instance" "ec2_server" {
   subnet_id = "${aws_subnet.public.id}"
   associate_public_ip_address = "true"
   key_name = "ansible_keypair"
+  user_data = <<-EOF
+              #!/bin/bash
+              sudo yum -y update
+              sudo yum -y install epel-release
+              sudo yum -y install git 
+              sudo amazon-linux-extras install ansible2
+              sudo yum -y install nginx
+              EOF
   vpc_security_group_ids = [
     "${aws_security_group.allow_ssh.id}"]
 }
