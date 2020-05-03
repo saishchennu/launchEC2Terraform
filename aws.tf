@@ -1,6 +1,6 @@
 provider "aws" {
-  access_key = "XXXXX"
-  secret_key = "XXXXXX"
+  access_key = "XXXXXX"
+  secret_key = "XXXXXXX""
   region = "us-east-1"
 }
 
@@ -37,7 +37,7 @@ resource "aws_instance" "ec2_server" {
   instance_type = "t2.micro"
   subnet_id = "${aws_subnet.public.id}"
   associate_public_ip_address = "true"
-  key_name = "ansible_keypair"
+  key_name = "sriawsKeypair"
   user_data = <<-EOF
               #!/bin/bash
               sudo yum -y update
@@ -48,6 +48,9 @@ resource "aws_instance" "ec2_server" {
               EOF
   vpc_security_group_ids = [
     "${aws_security_group.allow_ssh.id}"]
+  tags = {
+     stack =  "webservers"
+  }
 }
 
 resource "aws_security_group" "allow_ssh" {
